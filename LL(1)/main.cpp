@@ -4,6 +4,7 @@
 
 #include "BastSet.h"
 #include "SymbolSet.h"
+#include "SelectSet.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ int main() {
 	/*cout << fs << endl;
 	save_first << fs;
 	cout << bs.get_start() << endl;*/
-
+	SelectSet(fs, follow, bs);
 	
 
 	system("pause");

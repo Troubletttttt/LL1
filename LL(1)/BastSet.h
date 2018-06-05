@@ -10,6 +10,7 @@
 class BastSet {
 	friend class FollowSet;
 	friend class FirstSet;
+	friend class SelectSet;
 public:
 	BastSet(std::istream &);
 	~BastSet();

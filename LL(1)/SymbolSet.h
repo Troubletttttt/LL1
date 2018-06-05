@@ -12,6 +12,7 @@ class FollowSet;
 
 class SymbolSet {
 	friend std::ostream & operator<<(std::ostream &, const SymbolSet &);
+	friend class SelectSet;
 public:
 	SymbolSet(const std::string str) : name(str) {}
 	~SymbolSet();
@@ -21,6 +22,7 @@ protected:
 };
 class FirstSet : public SymbolSet {
 	friend class FollowSet;
+	friend class SelectSet;
 	//friend std::ostream & operator<<(std::ostream &, const SymbolSet &);
 public:
 	FirstSet(const BastSet &, const std::string );
@@ -30,6 +32,7 @@ private:
 	void insert_symbols(char from, char to);
 };
 class FollowSet : public SymbolSet {
+	friend class SelectSet;
 public:
 	FollowSet(const BastSet &, const FirstSet &, const std::string);
 };

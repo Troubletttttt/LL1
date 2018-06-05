@@ -116,12 +116,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BastSet.cpp" />
+    <ClCompile Include="Gramar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SelectSet.cpp" />
     <ClCompile Include="SymbolSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BastSet.h" />
+    <ClInclude Include="Gramar.h" />
     <ClInclude Include="SelectSet.h" />
     <ClInclude Include="SymbolSet.h" />
   </ItemGroup>
