@@ -22,8 +22,12 @@ int main() {
 	/*cout << fs << endl;
 	save_first << fs;
 	cout << bs.get_start() << endl;*/
-	SelectSet(fs, follow, bs);
-	
+	SelectSet select_set = SelectSet(fs, follow, bs);
+	cout << select_set << endl;
+
+	vector<char> vc = select_set.find('A', '#');
+	string s(vc.begin(), vc.end());
+	cout << s << endl;
 
 	system("pause");
 

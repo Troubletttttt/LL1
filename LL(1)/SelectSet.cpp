@@ -3,27 +3,61 @@
 using namespace std;
 
 SelectSet::SelectSet(const FirstSet &first, const FollowSet &follow, BastSet &bs) :
-	select_data() {
+	select_data() {	
+
 	for (auto i = bs.gramar_rule.begin(); i != bs.gramar_rule.end(); i++) {
 		set<char> s;
+
+		pair<const char, vector<char>> sentence(i->first, i->second);
 		
 		for (auto j = i->second.begin(); j != i->second.end(); ++j) {
-			add_char_set(s, first, *j);
+			if (bs.not_end.find(*j) == bs.not_end.end()) {
+				s.insert(*j);
+				break;
+			} else {				
+				s.insert(first.data.find(*j)->second.begin(),
+					first.data.find(*j)->second.end());
+				if (bs.null_not_end.find(*j) == bs.null_not_end.end()) {
+					break;
+				}
+			}
+			
 		}
-
 		if (can_to_empty(i->second, bs)) {
-			//推导出空表达式
-			add_char_set(s, follow, i->first);
-			s.erase(NULL_CHAR);			
+			s.insert(follow.data.find(i->first)->second.begin(),
+				follow.data.find(i->first)->second.end());
 		}
 
-		for (auto k = s.begin(); k != s.end(); k++) {
-			cout << *k << " ";
+		s.erase(NULL_CHAR);			
+
+		select_data.insert(pair<pair<const char, vector<char>>,
+			set<char>>(sentence, s));
+		//构建预测分析表
+		for (auto c = s.begin(); c != s.end(); c++) {
+			if (sentence.second.empty()) {
+				sentence.second.push_back(NULL_CHAR);
+			}
+			predict_anaysis_table.insert(pair<pair<const char, const char>,
+				vector<char>>(pair<const char, const char>(i->first, *c),
+					sentence.second));			
 		}
-		
-		pair<decltype(i), set<char>>p(i, s) ;
-		select_data.insert(p);
 	}
+	/*for (auto i = select_data.begin(); i != select_data.end(); i++) {
+		pair <const char, vector<char>> sen = i->first;
+		cout << sen.first << " ";
+	}*/
+	//for (auto i = predict_anaysis_table.begin();
+	//	i != predict_anaysis_table.end(); i++) {
+	//	cout << i->first.first << " " << i->first.second << " ";
+	//	string s(i->second.begin(), i->second.end());
+	//	cout << s << endl;	
+	//	/*if (s.empty()) {
+	//		cout << NULL_CHAR << endl;	
+	//	} else {
+	//		cout << s << endl;
+	//	}*/
+	//	
+	//}
 }
 
 bool SelectSet::can_to_empty(const vector<char> &vc, BastSet &bs) {
@@ -35,10 +69,25 @@ bool SelectSet::can_to_empty(const vector<char> &vc, BastSet &bs) {
 	}
 	return true;
 }
-void SelectSet::add_char_set(set<char> &s, const SymbolSet &from, char c) {
-	auto b = from.data.find(c)->second.begin();
-	auto e = from.data.find(c)->second.end();
-	s.insert(b, e);
+
+ostream& operator<<(ostream &os, const SelectSet &s) {
+	for (auto i = s.select_data.begin(); i != s.select_data.end(); i++) {
+		os << "SELECT( ";
+		os << i->first.first << " -> ";
+		for (auto j = i->first.second.begin(); j != i->first.second.end(); j++) {
+			os << *j;
+		}
+		os << " )";
+
+		os << " = { ";
+
+		for (auto j = i->second.begin();  j != i->second.end(); j++) {
+			os << *j << " ";
+		}
+
+		os << "}" << endl;	;
+	}
+	return os;
 }
 
 SelectSet::~SelectSet() {

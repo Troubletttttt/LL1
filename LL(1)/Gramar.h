@@ -16,7 +16,7 @@ private:
 class Sentence {
 	friend class Gramar;
 public:
-	Sentence() : rule(vector<char>()){}
+	Sentence() : rule(std::vector<char>()){}
 private:
 	char first;
 	std::vector<char> rule;
