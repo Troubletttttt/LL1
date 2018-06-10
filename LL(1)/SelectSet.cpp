@@ -70,6 +70,17 @@ bool SelectSet::can_to_empty(const vector<char> &vc, BastSet &bs) {
 	return true;
 }
 
+void SelectSet::print_pre(ostream &os) const {
+	for (auto i = predict_anaysis_table.begin(); 
+		i != predict_anaysis_table.end(); i++) {
+		os << i->first.first << " " << i->first.second << " : ";
+		for (auto j = i->second.begin(); j != i->second.end(); j++) {
+			os << *j << " ";
+		}
+		os << endl;
+	}
+}
+
 ostream& operator<<(ostream &os, const SelectSet &s) {
 	for (auto i = s.select_data.begin(); i != s.select_data.end(); i++) {
 		os << "SELECT( ";

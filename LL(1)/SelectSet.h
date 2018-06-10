@@ -16,8 +16,16 @@ public:
 
 	std::vector<char> find(const char ne, const char ec) const {
 		std::pair<const char, const char> p(ne, ec);
+		
+		if (predict_anaysis_table.find(p) 
+			== predict_anaysis_table.end()) {
+			std::vector<char> re;
+			return re;
+		}
+
 		return predict_anaysis_table.find(p)->second;
 	}
+	void print_pre(std::ostream &) const;
 private:	
 	std::map<std::pair<const char, std::vector<char>>, 
 		std::set<char>> select_data;
